@@ -54,3 +54,34 @@ Then just run the installer. e.g. ```qemu-w64-setup-20240720.exe```
 ## 3. Installing
 In the windows terminal execute: `qemu-system-x86_64 -m {MEM_AMOUNT} -cdrom {ARCH_ISO_NAME}.iso -hda archlinux_hdd.img -boot d -bios OVMF.fd `.
 Now a QEMU Window should open up. Now enter everything into QEMU unless I say otherwise.
+After the first reboot adter the install mkae sure to use `run_vm.ps1`
+
+### You need to now setup everything yourself i hope you can do that
+
+## Add qemu guest agent
+1. Install the `qemu-guest-agent` package
+2. Enable it using systemctl: `sudo systemctl enable qemu-guest-agent`
+3. In `run-vm.ps1` at the qemu command add `-device virtio-balloon`
+
+
+## Fix limine config file
+In limine version 8.x there was a new config file fix the warning like this:
+1. Create and edit the file `/boot/limine.conf` and enter this code:
+```cfg
+timeout: 5
+
+/Arch Linux (linux)
+      protocol: linux
+      kernel_path: boot():/vmlinux-linux
+      module_path: boot():/initramfs-linux.img
+      cmdline: root=PARTUUID={YOUR PARTUUID FOR THE ROOT PART} zswap.enabled=0 rw rootfstype=ext4
+
+
+/Arch Linux (linux-fallback)
+      protocol: linux
+      kernel_path: boot():/vmlinux-linux
+      module_path: boot():/initramfs-linux-fallback.img
+      cmdline: root=PARTUUID={YOUR PARTUUID FOR THE ROOT PART} zswap.enabled=0 rw rootfstype=ext4
+```
+replace the placeholder with your PARTUUID
+2. Save and reboot
