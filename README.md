@@ -52,7 +52,7 @@ Then just run the installer. e.g. ```qemu-w64-setup-20240720.exe```
 3. Save
 
 ## 3. Installing
-In the windows terminal execute: `qemu-system-x86_64 -m {MEM_AMOUNT} -cdrom {ARCH_ISO_NAME}.iso -hda archlinux_hdd.img -boot d -bios OVMF.fd `.
+In the windows terminal execute: `qemu-system-x86_64 -m {MEM_AMOUNT} -cdrom {ARCH_ISO_NAME}.iso -hda archlinux_hdd.img -boot d -bios OVMF.fd -accel whpx -smp 4 -cpu qemu64`.
 Now a QEMU Window should open up. Now enter everything into QEMU unless I say otherwise.
 After the first reboot adter the install mkae sure to use `run_vm.ps1`
 
